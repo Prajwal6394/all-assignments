@@ -66,5 +66,20 @@ app.post('/todos', (req, res) =>{
   res.status(201).json(todos);
 })
 
+// endpoint to get specific todo
+app.get('./todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todoFound = todos.find(todo => todo.Id === id);
+
+  if(todoFound){
+    res.status(201).json(todoFound);
+  }else{
+    res.status(401).console.json({
+      error: "todo not found"
+    });
+  }
+})
+
 
 app.listen(3000);
