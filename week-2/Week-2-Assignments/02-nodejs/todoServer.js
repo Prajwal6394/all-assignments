@@ -41,9 +41,18 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json());
 
-module.exports = app;
+let todos = [];
+// endpoint to get all the todos
+app.get('/todos', (req, res) =>{
+  res.status(200).json(todos);
+})
+
+
+app.listen(3000);
