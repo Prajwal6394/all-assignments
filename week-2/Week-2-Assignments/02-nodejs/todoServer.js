@@ -48,7 +48,43 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-let todos = [];
+let todos = [
+  {
+      "title": "last  todo",
+      "description": "Detail of the last todo to get caught"
+  },
+  {
+      "id": 9639,
+      "title": "last  todo",
+      "description": "Detail of the last todo to get caught"
+  },
+  {
+      "id": 1736,
+      "title": "last  todo",
+      "description": "Detail of the last todo to get caught"
+  },
+  {
+      "id": 9560,
+      "title": "last  todo",
+      "description": "Detail of the last todo to get caught"
+  },
+  {
+      "id": 2582,
+      "title": "last  todo",
+      "description": "Detail of the last todo to get caught"
+  }
+];
+
+// function to find the index of an element
+function findIndex(arr, idx){
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i].id === idx){
+      return i;
+    }
+  }
+  return -1;
+}
+
 // endpoint to get all the todos
 app.get('/todos', (req, res) =>{
   res.status(200).json(todos);
@@ -58,7 +94,7 @@ app.get('/todos', (req, res) =>{
 app.post('/todos', (req, res) =>{
   const randonId = Math.floor(Math.random() * 10000) + 1;
   const newTodo = {
-    Id: randonId,
+    id: randonId,
     title: req.body.title,
     description: req.body.description
   }
@@ -67,17 +103,13 @@ app.post('/todos', (req, res) =>{
 })
 
 // endpoint to get specific todo
-app.get('./todos/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+app.get('/todos/:id', (req, res) => {
+  const todoIndex = findIndex(todos, parseInt(req.params.id));
 
-  const todoFound = todos.find(todo => todo.Id === id);
-
-  if(todoFound){
-    res.status(201).json(todoFound);
+  if(todoIndex === -1){
+    res.status(404).json({todo: "todo not found"});
   }else{
-    res.status(401).console.json({
-      error: "todo not found"
-    });
+    res.json(todos[todoIndex]);
   }
 })
 
