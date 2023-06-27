@@ -50,10 +50,6 @@ app.use(bodyParser.json());
 
 let todos = [
   {
-      "title": "last  todo",
-      "description": "Detail of the last todo to get caught"
-  },
-  {
       "id": 9639,
       "title": "last  todo",
       "description": "Detail of the last todo to get caught"
@@ -112,6 +108,22 @@ app.get('/todos/:id', (req, res) => {
     res.json(todos[todoIndex]);
   }
 })
+
+// endpoint to update an existing todo
+app.put('/todos/:id', (req, res) => {
+  const updatedTodo ={
+    id: parseInt(req.params.id),
+    title: req.body.title,
+    description: req.body.description
+  }
+  const todoIndex = findIndex(todos, parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send();
+  } else {
+    todos[todoIndex] = updatedTodo;
+    res.json(todos[todoIndex]);
+  }
+});
 
 
 app.listen(3000);
