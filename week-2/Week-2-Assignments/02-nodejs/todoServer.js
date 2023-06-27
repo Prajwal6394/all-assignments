@@ -54,5 +54,17 @@ app.get('/todos', (req, res) =>{
   res.status(200).json(todos);
 })
 
+// endpoint to create a todo
+app.post('/todos', (req, res) =>{
+  const randonId = Math.floor(Math.random() * 10000) + 1;
+  const newTodo = {
+    Id: randonId,
+    title: req.body.title,
+    description: req.body.description
+  }
+  todos.push(newTodo);
+  res.status(201).json(todos);
+})
+
 
 app.listen(3000);
