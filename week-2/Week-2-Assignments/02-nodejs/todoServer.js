@@ -42,6 +42,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { parse } = require('superagent');
 
 const app = express();
 app.use(cors());
@@ -124,6 +125,16 @@ app.put('/todos/:id', (req, res) => {
     res.json(todos[todoIndex]);
   }
 });
+
+app.delete('/todos/:id', (req, res) =>{
+  const todoIndex = findIndex(todos, parseInt(req.params.id));
+  if(todoIndex === -1){
+    res.status(404).send();
+  }else{
+    todos.splice(todoIndex, 1);
+    res.status(200).json(todos);
+  }
+})
 
 
 app.listen(3000);
